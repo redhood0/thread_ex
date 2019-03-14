@@ -37,16 +37,18 @@ public class Teller implements Runnable, Comparable<Teller> {
 
     public synchronized void doSomethingElse() {
         customerServed = 0;
-        servingCustomerLine = false;
+        servingCustomerLine = false;//无服务状态
     }
-
     /**
      * 这句没看懂，TODO：
      */
     public synchronized void serveCustomerLine() {
         //断言表达式，如果为true 继续运行。
-        assert !servingCustomerLine : "already serving:" + this;
-        servingCustomerLine = false;
+       // assert !servingCustomerLine : "already serving:" + this;
+        if(servingCustomerLine == true){
+            throw new RuntimeException("already serving");
+        }
+        servingCustomerLine = true;
         notifyAll();
     }
 
